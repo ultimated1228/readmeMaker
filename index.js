@@ -56,6 +56,8 @@ const questions = [
 
 ];
 
+
+
 // Get the license text, link and svg based on the user's choice
 function getLicenseInfo(license) {
   let licenseText = '';
@@ -85,7 +87,7 @@ function getLicenseInfo(license) {
       break;
     case 'Other':
       licenseText = 'Custom License (Add type of license here)';
-      licenseLink = 'Custome License (Add link to license here';
+      licenseLink = 'Custom License (Add link to license here)';
       licenseSVG = 'https://img.shields.io/badge/License-Other-red.svg';
       break;
     default:
@@ -93,8 +95,11 @@ function getLicenseInfo(license) {
       licenseText = '';
       licenseLink = '';
   }
-
+  console.log(licenseText);
+  console.log(licenseLink);
+  console.log(licenseSVG);
   return { text: licenseText, link: licenseLink, svg: licenseSVG };
+  
 }
 
 
