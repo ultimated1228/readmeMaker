@@ -1,7 +1,7 @@
 {
   "name": "static-site",
   "version": "1.0.0",
-  "description": "",
+  "description": "A nodeJS readme maker, produced as a part of the UC-Irvine bootcamp curriculum",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "inquirer": "^6.3.1"
-  }
+    "enquirer": "^2.4.1",
+    "inquirer": "^6.3.1",
+    "markdown-it": "^13.0.1"
+  },
+  "keywords": []
 }
