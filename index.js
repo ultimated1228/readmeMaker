@@ -4,7 +4,7 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 const markdown = require('markdown-it')();
-
+const https = require('https');
 // TODO: Create an array of questions for user input
 const questions = [
   {
@@ -33,7 +33,7 @@ const questions = [
     message: 'Have you developed test for you project? If so, enter those details here',
     name: 'testsInput'
   }, {
-    type: 'checkbox',
+    type: 'list',
     message: 'What license would you like this project to have?',
     name: 'licenseInput',
     choices: [
@@ -56,49 +56,89 @@ const questions = [
 
 ];
 
+function fetchLicenseDetails(licenseDetailsUrl) {
+  return new Promise((resolve, reject) => {
+    https.get(licenseDetailsUrl, (response) => {
+      let data = '';
 
+      response.on('data', (chunk) => {
+        data += chunk;
+      });
+
+      response.on('end', () => {
+        resolve(data);
+      });
+
+      response.on('error', (error) => {
+        reject(error);
+      });
+    });
+  });
+}
 
 // Get the license text, link and svg based on the user's choice
 function getLicenseInfo(license) {
   let licenseText = '';
   let licenseLink = '';
   let licenseSVG = '';
+  let licenseDetails = '';
 
   switch (license) {
     case 'MIT':
       licenseText = 'MIT License';
       licenseLink = 'https://opensource.org/licenses/MIT';
       licenseSVG = 'https://img.shields.io/badge/License-MIT-yellow.svg';
+      licenseDetails = 'https://www.boost.org/LICENSE_1_0.txt';
       break;
     case 'GPLv2':
       licenseText = 'GNU General Public License v2.0';
       licenseLink = 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html';
       licenseSVG = 'https://img.shields.io/badge/License-GPL_v2-blue.svg';
+      licenseDetails = 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt';
       break;
     case 'Apache':
       licenseText = 'Apache License 2.0';
       licenseLink = 'https://www.apache.org/licenses/LICENSE-2.0';
       licenseSVG = 'https://img.shields.io/badge/License-Apache_2.0-blue.svg';
+      licenseDetails = 'https://www.apache.org/licenses/LICENSE-2.0.txt';
       break;
     case 'GPLv3':
       licenseText = 'GNU General Public License v3.0';
       licenseLink = 'https://www.gnu.org/licenses/gpl-3.0.en.html';
+      licenseSVG = 'https://img.shields.io/badge/License-GPLv3-blue.svg';
+      licenseDetails = 'https://www.gnu.org/licenses/gpl-3.0.txt';
 
       break;
     case 'Other':
       licenseText = 'Custom License (Add type of license here)';
       licenseLink = 'Custom License (Add link to license here)';
       licenseSVG = 'https://img.shields.io/badge/License-Other-red.svg';
+      licenseDetails = 'Custom License (Add details here)';
       break;
     default:
       // Empty string for unsupported licenses
       licenseText = '';
       licenseLink = '';
+      licenseSVG = '';
+      licenseDetails = '';
   }
-  console.log(licenseText);
-  console.log(licenseLink);
-  console.log(licenseSVG);
-  return { text: licenseText, link: licenseLink, svg: licenseSVG };
+  
+  console.log(licenseDetails);
+
+  if (licenseDetails) {
+    fetchLicenseDetails(licenseDetails)
+      .then((licenseDetailsResponse) => {
+        console.log(licenseDetailsResponse);
+        licenseDetails = licenseDetailsResponse;
+      })
+      .catch((error) => {
+        console.error('Error fetching license details:', error);
+      });
+  }
+
+  
+
+  return { text: licenseText, link: licenseLink, svg: licenseSVG, details: licenseDetails };
   
 }
 
@@ -108,11 +148,11 @@ function getLicenseInfo(license) {
 
 // Function to generate the README content based on user input
 function generateReadme(data) {
-  const { text: licenseText, link: licenseLink, svg: licenseSVG } = getLicenseInfo(data.licenseInput);
+  const { text: licenseText, link: licenseLink, svg: licenseSVG, details: licenseDetails } = getLicenseInfo(data.licenseInput);
   const tableOfContents = `
   ## Table of Contents
 
-  <div style="display: flex; flex-direction: row; flex-wrap: wrap;">
+  <div style="display: flex;">
   <a href="#description" style="text-decoration: none; margin: 5px;">
     <img src="https://img.shields.io/badge/Description-37a779?style=for-the-badge" alt="Description" />
   </a>
@@ -129,7 +169,7 @@ function generateReadme(data) {
     <img src="https://img.shields.io/badge/Tests-37a779?style=for-the-badge" alt="Tests" />
   </a>
   <a href="#license" style="text-decoration: none; margin: 5px;">
-    <img src="https://img.shields.io/badge/License-37a779?style=for-the-badge" alt="License" /><img src="${licenseSVG}" alt="${licenseText}" />
+    <img src="${licenseSVG}" alt="${licenseText}" alt="License" style="height:28px" />
   </a>
   <a href="#contact" style="text-decoration: none; margin: 5px;">
     <img src="https://img.shields.io/badge/Contact-37a779?style=for-the-badge" alt="Contact" />
@@ -167,7 +207,9 @@ ${data.testsInput}
 <p align="right">(<a href="#${data.titleInput}">back to top</a>)</p>
 
 ## License
-This project is licensed under the [${licenseText}](${licenseLink}) License. Please click the link for more details!
+${licenseDetails || 'License details not available.'}
+\n
+Fore more details on the [${licenseText}](${licenseLink}) License please click the link!
 
 <p align="right">(<a href="#${data.titleInput}">back to top</a>)</p>
 
