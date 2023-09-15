@@ -53,13 +53,13 @@ THEN this is added to the section of the README entitled Questions, with instruc
 WHEN I click on the links in the Table of Contents  
 THEN I am taken to the corresponding section of the README  
 
-<p align="right">(<a href="#Readme Maker">back to top</a>)</p>
+<p align="right">(<a href="#readme-maker">back to top</a>)</p>
 
 ## Installation
 No installation required.  This project is run in command line terminals by navigating to the folder that holds the index.js file and running 'node index'.<br><br>
 
 
-<p align="right">(<a href="#Readme Maker">back to top</a>)</p>
+<p align="right">(<a href="#readme-maker">back to top</a>)</p>
 
 ## Usage
 A screenshot of the command line filled out:<br><br>
@@ -73,19 +73,19 @@ A gif of the application being run:
 
 [Link to .mov file with audio](https://drive.google.com/file/d/1zi1hL9ZSp4gd5TTVOiNU5rNFYx5un610/view?usp=sharing)
 
-<p align="right">(<a href="#Readme Maker">back to top</a>)</p>
+<p align="right">(<a href="#readme-maker">back to top</a>)</p>
 
 ## Contributing
 
 If you would like to contribute, your thoughts are always welcome!  Feel free to clone the repo and push up any new code.  I will happily review and merge valuable contributions!
 
-<p align="right">(<a href="#Readme Maker">back to top</a>)</p>
+<p align="right">(<a href="#readme-maker">back to top</a>)</p>
 
 ## Tests
 
 This is a fairly simple file program, and no tests have been developed
 
-<p align="right">(<a href="#Readme Maker">back to top</a>)</p>
+<p align="right">(<a href="#readme-maker">back to top</a>)</p>
 
 ## License
 MIT Software License - Version 1.0 - August 17th, 2003
@@ -115,7 +115,7 @@ DEALINGS IN THE SOFTWARE.
 
 Fore more details on the [MIT License](https://opensource.org/licenses/MIT) License please click the link!
 
-<p align="right">(<a href="#Readme Maker">back to top</a>)</p>
+<p align="right">(<a href="#readme-maker">back to top</a>)</p>
 
 ## Contact
 You can get in touch with the creator through:
@@ -125,4 +125,4 @@ You can get in touch with the creator through:
 [Email the creator](mailto:stevenlucasmeyer@gmail.com)
 
 
-<p align="right">(<a href="#Readme Maker">back to top</a>)</p>
+<p align="right">(<a href="#readme-maker">back to top</a>)</p>
