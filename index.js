@@ -77,7 +77,7 @@ function fetchLicenseDetails(licenseDetailsUrl) {
 }
 
 // Get the license text, link and svg based on the user's choice
-function getLicenseInfo(license) {
+async function getLicenseInfo(license) {
   let licenseText = '';
   let licenseLink = '';
   let licenseSVG = '';
@@ -125,21 +125,11 @@ function getLicenseInfo(license) {
   
   console.log(licenseDetails);
 
-  if (licenseDetails) {
-    fetchLicenseDetails(licenseDetails)
-      .then((licenseDetailsResponse) => {
-        console.log(licenseDetailsResponse);
-        licenseDetails = licenseDetailsResponse;
-      })
-      .catch((error) => {
-        console.error('Error fetching license details:', error);
-      });
-  }
-
   
+    licenseDetails = await fetchLicenseDetails (licenseDetails)
+    console.log({licenseText, licenseLink, licenseSVG, licenseDetails})
+    return { text: licenseText, link: licenseLink, svg: licenseSVG, details: licenseDetails };
 
-  return { text: licenseText, link: licenseLink, svg: licenseSVG, details: licenseDetails };
-  
 }
 
 
@@ -147,8 +137,8 @@ function getLicenseInfo(license) {
 
 
 // Function to generate the README content based on user input
-function generateReadme(data) {
-  const { text: licenseText, link: licenseLink, svg: licenseSVG, details: licenseDetails } = getLicenseInfo(data.licenseInput);
+async function generateReadme(data) {
+  const { text: licenseText, link: licenseLink, svg: licenseSVG, details: licenseDetails } = await getLicenseInfo(data.licenseInput);
   const tableOfContents = `
   ## Table of Contents
 
@@ -207,13 +197,13 @@ ${data.testsInput}
 <p align="right">(<a href="#${data.titleInput}">back to top</a>)</p>
 
 ## License
-${licenseText} License
+${licenseText}
 
 Copyright (c) 2023 ${data.githubInput}
 
 ${licenseDetails || 'License details not available.'}
 \n
-Fore more details on the [${licenseText}](${licenseLink}) License please click the link!
+Fore more details on the [${licenseText}](${licenseLink}) please click the link!
 
 <p align="right">(<a href="#${data.titleInput}">back to top</a>)</p>
 
@@ -229,8 +219,8 @@ You can get in touch with the creator through:\n
 
 // TODO: Create a function to write README file
 // Function to write README file
-function writeToFile(data) {
-  const readmeContent = generateReadme(data);
+async function writeToFile(data) {
+  const readmeContent = await generateReadme(data);
   const fileName = `${data.titleInput.toLowerCase()}README.md`;
 
   fs.writeFile(fileName, readmeContent, (err) => {
