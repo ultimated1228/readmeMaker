@@ -207,6 +207,10 @@ ${data.testsInput}
 <p align="right">(<a href="#${data.titleInput}">back to top</a>)</p>
 
 ## License
+${licenseText} License
+
+Copyright (c) 2023 ${data.githubInput}
+
 ${licenseDetails || 'License details not available.'}
 \n
 Fore more details on the [${licenseText}](${licenseLink}) License please click the link!
