@@ -140,6 +140,8 @@ async function getLicenseInfo(license) {
 async function generateReadme(data) {
   const { text: licenseText, link: licenseLink, svg: licenseSVG, details: licenseDetails } = await getLicenseInfo(data.licenseInput);
   const tableOfContents = `
+  
+  
   ## Table of Contents
 
   <div style="display: flex;">
@@ -167,6 +169,8 @@ async function generateReadme(data) {
 </div>`;
 
   const readmeContent = `
+  <p id="back_to_top"></p>
+
 # ${data.titleInput}
 
 ${tableOfContents}
@@ -174,27 +178,27 @@ ${tableOfContents}
 ## Description
 ${data.descriptionInput}
 
-<p align="right">(<a href="#${data.titleInput}">back to top</a>)</p>
+<p align="right">(<a href="#back_to_top">back to top</a>)</p>
 
 ## Installation
 ${data.installInput}
 
-<p align="right">(<a href="#${data.titleInput}">back to top</a>)</p>
+<p align="right">(<a href="#back_to_top">back to top</a>)</p>
 
 ## Usage
 ${data.usageInput}
 
-<p align="right">(<a href="#${data.titleInput}">back to top</a>)</p>
+<p align="right">(<a href="#back_to_top">back to top</a>)</p>
 
 ## Contributing
 ${data.contributeInput}
 
-<p align="right">(<a href="#${data.titleInput}">back to top</a>)</p>
+<p align="right">(<a href="#back_to_top">back to top</a>)</p>
 
 ## Tests
 ${data.testsInput}
 
-<p align="right">(<a href="#${data.titleInput}">back to top</a>)</p>
+<p align="right">(<a href="#back_to_top">back to top</a>)</p>
 
 ## License
 ${licenseText}
@@ -205,14 +209,14 @@ ${licenseDetails || 'License details not available.'}
 \n
 Fore more details on the [${licenseText}](${licenseLink}) please click the link!
 
-<p align="right">(<a href="#${data.titleInput}">back to top</a>)</p>
+<p align="right">(<a href="#back_to_top">back to top</a>)</p>
 
 ## Contact
 You can get in touch with the creator through:\n
 [My Github](https://github.com/${data.githubInput})\n
 [Email the creator](mailto:${data.emailInput})\n
 
-<p align="right">(<a href="#${data.titleInput}">back to top</a>)</p>`;
+<p align="right">(<a href="#back_to_top">back to top</a>)</p>`;
 
   return readmeContent;
 }
